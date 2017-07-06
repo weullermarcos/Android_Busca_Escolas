@@ -35,11 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
         txtResposta.setText("Iniciando...");
 
-        Log.d("TESTE","INICIANDO");
-
-
-//        Requisição simples
-
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="http://mobile-aceite.tcu.gov.br:80/nossaEscolaRS/rest/escolas";
@@ -48,11 +43,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                txtResposta.setText("Resposta: " + response.substring(0, 500));
+                txtResposta.setText("Deu Certo");
                 Log.d("TESTE","DEU CERTO");
 
                 Gson gson = new Gson();
-                //Escola object = gson.fromJson(response, Escola.class);
 
                 Type listType = new TypeToken<ArrayList<Escola>>(){}.getType();
 
@@ -62,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
                 for (Escola escola : escolas) {
 
-                    Log.d("TESTE", escola.getNome());
+                    Log.d("TESTE", escola.getNome() + " - " +
+                                   " - " + escola.getInfraestrutura().getTemInternet());
                 }
 
             }

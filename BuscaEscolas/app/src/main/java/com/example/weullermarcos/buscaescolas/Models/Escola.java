@@ -18,68 +18,17 @@ public class Escola {
     private String tipoConvenioPoderPublico;
     private String cnpj;
     private String telefone;
-
-
-
-
-//            "seFimLucrativo": "N",
-//            "seConveniadaSetorPublico": "N",
-//            "qtdSalasExistentes": 6,
-//            "qtdSalasUtilizadas": 6,
-//            "qtdFuncionarios": 34,
-//            "qtdComputadores": 10,
-//            "qtdComputadoresPorAluno": 10,
-//            "qtdAlunos": 341,
-//            "endereco": {
-//        "cep": "76820170",
-//                "descricao": "RUA RAIMUNDO CANTUARIA 3862ESQUINA COM EQUADOR",
-//                "bairro": "NOVA PORTO VELHO",
-//                "municipio": "Porto Velho                                       ",
-//                "uf": "RO"
-//    },
-//        "zona": "URBANA",
-//            "infraestrutura": {
-//        "temQuadraEsporteCoberta": "N",
-//                "temQuadraEsporteDescoberta": "S",
-//                "temInternet": "S",
-//                "temBandaLarga": "S",
-//                "temLaboratorioInformatica": "S",
-//                "temLaboratorioCiencias": "N",
-//                "temRefeitorio": "N",
-//                "temAuditorio": "N",
-//                "temDespensa": "N",
-//                "temAlmoxarifado": "N",
-//                "temPatioCoberto": "S",
-//                "temPatioDescoberto": "N",
-//                "temParqueInfantil": "N",
-//                "temCozinha": "S",
-//                "temBiblioteca": "S",
-//                "temBercario": "N",
-//                "temSanitarioNoPredio": "S",
-//                "temSanitarioForaPredio": "N",
-//                "temSalaLeitura": "N",
-//                "temAreaVerde": "N",
-//                "temAguaFiltrada": "S",
-//                "temAcessibilidade": "N",
-//                "temCreche": "N",
-//                "temEnsinoFundamental": "S",
-//                "temEnsinoMedio": "N",
-//                "temEnsinoMedioNormal": "N",
-//                "temEnsinoMedioProfissional": "N",
-//                "temEnsinoMedioIntegrado": "N",
-//                "temEducacaoJovemAdulto": "N",
-//                "temEducacaoIndigena": "N",
-//                "banheiroTemChuveiro": "N",
-//                "ofereceAlimentacao": "S",
-//                "atendeEducacaoEspecializada": "S"
-//    },
-//        "links": [
-//        {
-//            "rel": "self",
-//                "href": "http://mobile-aceite.tcu.gov.br/nossaEscolaRS/rest/escolas/11000651"
-//        }
-//        ]
-//    },
+    private String seFimLucrativo;
+    private String seConveniadaSetorPublico;
+    private int qtdSalasExistentes;
+    private int qtdSalasUtilizadas;
+    private int qtdFuncionarios;
+    private int qtdComputadores;
+    private int qtdComputadoresPorAluno;
+    private int qtdAlunos;
+    private Endereco endereco;
+    private String zona;
+    private Infraestrutura infraestrutura;
 
 
     public int getCodEscola() {
@@ -176,5 +125,93 @@ public class Escola {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getSeFimLucrativo() {
+        return seFimLucrativo;
+    }
+
+    public void setSeFimLucrativo(String seFimLucrativo) {
+        this.seFimLucrativo = seFimLucrativo;
+    }
+
+    public String getSeConveniadaSetorPublico() {
+        return seConveniadaSetorPublico;
+    }
+
+    public void setSeConveniadaSetorPublico(String seConveniadaSetorPublico) {
+        this.seConveniadaSetorPublico = seConveniadaSetorPublico;
+    }
+
+    public int getQtdSalasExistentes() {
+        return qtdSalasExistentes;
+    }
+
+    public void setQtdSalasExistentes(int qtdSalasExistentes) {
+        this.qtdSalasExistentes = qtdSalasExistentes;
+    }
+
+    public int getQtdSalasUtilizadas() {
+        return qtdSalasUtilizadas;
+    }
+
+    public void setQtdSalasUtilizadas(int qtdSalasUtilizadas) {
+        this.qtdSalasUtilizadas = qtdSalasUtilizadas;
+    }
+
+    public int getQtdFuncionarios() {
+        return qtdFuncionarios;
+    }
+
+    public void setQtdFuncionarios(int qtdFuncionarios) {
+        this.qtdFuncionarios = qtdFuncionarios;
+    }
+
+    public int getQtdComputadores() {
+        return qtdComputadores;
+    }
+
+    public void setQtdComputadores(int qtdComputadores) {
+        this.qtdComputadores = qtdComputadores;
+    }
+
+    public int getQtdComputadoresPorAluno() {
+        return qtdComputadoresPorAluno;
+    }
+
+    public void setQtdComputadoresPorAluno(int qtdComputadoresPorAluno) {
+        this.qtdComputadoresPorAluno = qtdComputadoresPorAluno;
+    }
+
+    public int getQtdAlunos() {
+        return qtdAlunos;
+    }
+
+    public void setQtdAlunos(int qtdAlunos) {
+        this.qtdAlunos = qtdAlunos;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getZona() {
+        return zona;
+    }
+
+    public void setZona(String zona) {
+        this.zona = zona;
+    }
+
+    public Infraestrutura getInfraestrutura() {
+        return infraestrutura;
+    }
+
+    public void setInfraestrutura(Infraestrutura infraestrutura) {
+        this.infraestrutura = infraestrutura;
     }
 }
