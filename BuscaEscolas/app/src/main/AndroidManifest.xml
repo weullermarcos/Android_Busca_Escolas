@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BuscaEscolasActivity"></activity>
+        <activity android:name=".BuscaEscolasActivity" />
+        <activity android:name=".DetalharEscolaActivity"></activity>
     </application>
 
 </manifest>

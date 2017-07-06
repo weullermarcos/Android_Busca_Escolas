@@ -1,10 +1,12 @@
 package com.example.weullermarcos.buscaescolas.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by weullermarcos on 05/07/17.
  */
 
-public class Endereco {
+public class Endereco implements Serializable {
 
     private String cep;
     private String descricao;

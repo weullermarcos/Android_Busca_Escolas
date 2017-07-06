@@ -1,10 +1,12 @@
 package com.example.weullermarcos.buscaescolas.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by weullermarcos on 04/07/17.
  */
 
-public class Escola {
+public class Escola implements Serializable {
 
     private int codEscola;
     private String nome;
@@ -30,6 +32,31 @@ public class Escola {
     private String zona;
     private Infraestrutura infraestrutura;
 
+    public Escola(int codEscola, String nome, Double latitude, Double longitude, String rede, String email, String esferaAdministrativa, String categoriaEscolaPrivada, String situacaoFuncionamento, String tipoConvenioPoderPublico, String cnpj, String telefone, String seFimLucrativo, String seConveniadaSetorPublico, int qtdSalasExistentes, int qtdSalasUtilizadas, int qtdFuncionarios, int qtdComputadores, int qtdComputadoresPorAluno, int qtdAlunos, Endereco endereco, String zona, Infraestrutura infraestrutura) {
+        this.codEscola = codEscola;
+        this.nome = nome;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.rede = rede;
+        this.email = email;
+        this.esferaAdministrativa = esferaAdministrativa;
+        this.categoriaEscolaPrivada = categoriaEscolaPrivada;
+        this.situacaoFuncionamento = situacaoFuncionamento;
+        this.tipoConvenioPoderPublico = tipoConvenioPoderPublico;
+        this.cnpj = cnpj;
+        this.telefone = telefone;
+        this.seFimLucrativo = seFimLucrativo;
+        this.seConveniadaSetorPublico = seConveniadaSetorPublico;
+        this.qtdSalasExistentes = qtdSalasExistentes;
+        this.qtdSalasUtilizadas = qtdSalasUtilizadas;
+        this.qtdFuncionarios = qtdFuncionarios;
+        this.qtdComputadores = qtdComputadores;
+        this.qtdComputadoresPorAluno = qtdComputadoresPorAluno;
+        this.qtdAlunos = qtdAlunos;
+        this.endereco = endereco;
+        this.zona = zona;
+        this.infraestrutura = infraestrutura;
+    }
 
     public int getCodEscola() {
         return codEscola;
@@ -213,5 +240,10 @@ public class Escola {
 
     public void setInfraestrutura(Infraestrutura infraestrutura) {
         this.infraestrutura = infraestrutura;
+    }
+
+    @Override
+    public String toString() {
+        return nome + "\n" + this.getEndereco().getMunicipio();
     }
 }

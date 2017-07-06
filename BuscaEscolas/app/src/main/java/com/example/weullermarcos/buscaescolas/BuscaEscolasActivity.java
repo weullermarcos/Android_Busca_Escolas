@@ -1,9 +1,11 @@
 package com.example.weullermarcos.buscaescolas;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +33,7 @@ public class BuscaEscolasActivity extends AppCompatActivity {
     ListView lstEscolas;
 
     ArrayList<Escola> escolas = new ArrayList<Escola>();
-    ArrayAdapter<String> adpEscolas;
+    ArrayAdapter<Escola> adpEscolas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class BuscaEscolasActivity extends AppCompatActivity {
         edtNome = (EditText) findViewById(R.id.busca_escolas_edtNome);
         btnPesquisar = (Button) findViewById(R.id.busca_escolas_btnPesquisar);
 
-        adpEscolas = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        adpEscolas = new ArrayAdapter<Escola>(this, android.R.layout.simple_list_item_1);
         lstEscolas.setAdapter(adpEscolas);
 
         btnPesquisar.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +59,22 @@ public class BuscaEscolasActivity extends AppCompatActivity {
                 //Fazer a busca de acordo com os filtros fornecidos
                 String filtro = "nome=" + edtNome.getText().toString();
                 fazRequisicao(filtro);
+
+            }
+        });
+
+        lstEscolas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Escola escola = (Escola) (lstEscolas.getItemAtPosition(i));
+                txtResposta.setText("Escola selecionada: " + escola.getNome());
+
+                Intent intent = new Intent(BuscaEscolasActivity.this, DetalharEscolaActivity.class);
+
+                intent.putExtra("ESCOLA", escola);
+//
+                startActivity(intent);
 
             }
         });
@@ -82,8 +100,7 @@ public class BuscaEscolasActivity extends AppCompatActivity {
                 //preenchendo adapter
                 for (Escola escola : escolas) {
 
-                    adpEscolas.add(escola.getNome() + "\n" +
-                                   escola.getEndereco().getMunicipio());
+                    adpEscolas.add(escola);
                 }
 
             }
