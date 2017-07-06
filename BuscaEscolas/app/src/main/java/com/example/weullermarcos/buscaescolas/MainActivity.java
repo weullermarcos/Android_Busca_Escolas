@@ -1,8 +1,11 @@
 package com.example.weullermarcos.buscaescolas;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,60 +24,35 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView txtResposta;
+    Button btnEsolasProximas, btnBuscarEscolas;
 
-    ArrayList<Escola> escolas = new ArrayList<Escola>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnEsolasProximas = (Button) findViewById(R.id.main_btnEsolasProximas);
+        btnBuscarEscolas = (Button) findViewById(R.id.main_btnBuscarEscolas);
 
-        txtResposta = (TextView) findViewById(R.id.txtResposta);
-
-        txtResposta.setText("Iniciando...");
-
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://mobile-aceite.tcu.gov.br:80/nossaEscolaRS/rest/escolas";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        btnEsolasProximas.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(String response) {
+            public void onClick(View view) {
 
-                txtResposta.setText("Deu Certo");
-                Log.d("TESTE","DEU CERTO");
-
-                Gson gson = new Gson();
-
-                Type listType = new TypeToken<ArrayList<Escola>>(){}.getType();
-
-                escolas = new Gson().fromJson(response, listType);
-
-                Log.d("TESTE", "PASSOU DO DESSERIALIZE");
-
-                for (Escola escola : escolas) {
-
-                    Log.d("TESTE", escola.getNome() + " - " +
-                                   " - " + escola.getInfraestrutura().getTemInternet());
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                txtResposta.setText("Deu errado...");
-                Log.d("TESTE","DEU ERRADO");
+                //TODO:
+                //direciona para a tela que lista escolas proximas a mim
 
             }
         });
 
-        Log.d("TESTE","ADICIONANDO A FILA");
+        btnBuscarEscolas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        //adiciona a string de requisição a fila de execução
-        queue.add(stringRequest);
+                Intent intent = new Intent(MainActivity.this, BuscaEscolasActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
