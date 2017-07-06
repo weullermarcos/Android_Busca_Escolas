@@ -4,8 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,20 +28,30 @@ public class BuscaEscolasActivity extends AppCompatActivity {
     Button btnPesquisar;
     EditText edtNome;
     TextView txtResposta;
+    ListView lstEscolas;
+
     ArrayList<Escola> escolas = new ArrayList<Escola>();
+    ArrayAdapter<String> adpEscolas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busca_escolas);
 
+        lstEscolas = (ListView) findViewById(R.id.busca_escolas_lstEscolas);
         txtResposta = (TextView) findViewById(R.id.busca_escolas_txtResposta);
         edtNome = (EditText) findViewById(R.id.busca_escolas_edtNome);
         btnPesquisar = (Button) findViewById(R.id.busca_escolas_btnPesquisar);
 
+        adpEscolas = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        lstEscolas.setAdapter(adpEscolas);
+
         btnPesquisar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //limpa dados anteriores
+                adpEscolas.clear();
 
                 //TODO
                 //Fazer a busca de acordo com os filtros fornecidos
@@ -61,19 +73,17 @@ public class BuscaEscolasActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 txtResposta.setText("Deu Certo");
-                Log.d("TESTE","DEU CERTO");
 
+                //desserializando
                 Gson gson = new Gson();
-
                 Type listType = new TypeToken<ArrayList<Escola>>(){}.getType();
-
                 escolas = new Gson().fromJson(response, listType);
 
-                Log.d("TESTE", "PASSOU DO DESSERIALIZE");
-
+                //preenchendo adapter
                 for (Escola escola : escolas) {
 
-                    Log.d("TESTE", escola.getNome());
+                    adpEscolas.add(escola.getNome() + "\n" +
+                                   escola.getEndereco().getMunicipio());
                 }
 
             }
@@ -82,7 +92,6 @@ public class BuscaEscolasActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 txtResposta.setText("Deu errado...");
-                Log.d("TESTE","DEU ERRADO");
 
             }
         });
@@ -91,7 +100,6 @@ public class BuscaEscolasActivity extends AppCompatActivity {
 
         //adiciona a string de requisição a fila de execução
         queue.add(stringRequest);
-
 
     }
 }
