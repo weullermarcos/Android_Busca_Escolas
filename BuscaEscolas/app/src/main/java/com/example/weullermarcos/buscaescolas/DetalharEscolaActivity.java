@@ -2,6 +2,7 @@ package com.example.weullermarcos.buscaescolas;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,6 +54,11 @@ public class DetalharEscolaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO: direcionar e mostrar no mapa
+
+                Intent intent = new Intent(DetalharEscolaActivity.this, MapsActivity.class);
+
+                startActivity(intent);
+
             }
         });
 
