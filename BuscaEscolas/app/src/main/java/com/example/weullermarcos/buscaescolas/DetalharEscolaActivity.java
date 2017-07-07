@@ -1,21 +1,27 @@
 package com.example.weullermarcos.buscaescolas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.weullermarcos.buscaescolas.Models.Escola;
 
 public class DetalharEscolaActivity extends AppCompatActivity {
 
-    EditText edtNomeEscola;
+    TextView txtCabecalho, txtRede;
+
+    AlertDialog alerta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhar_escola);
 
-        edtNomeEscola = (EditText) findViewById(R.id.detalhar_escola_edtNomeEscola);
+        txtCabecalho = (TextView) findViewById(R.id.detalhar_escola_txtCabecalho);
+        txtRede = (TextView) findViewById(R.id.detalhar_escola_txtRede);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -27,8 +33,35 @@ public class DetalharEscolaActivity extends AppCompatActivity {
 
             if(escola != null){
 
-                edtNomeEscola.setText(escola.getNome());
+                txtCabecalho.setText(escola.getNome());
+                txtRede.setText(escola.getRede());
+            }
+            else{
+                exibeErroERetorna();
             }
         }
+        else{
+
+            exibeErroERetorna();
+        }
     }
+
+    private void exibeErroERetorna(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetalharEscolaActivity.this);
+        builder.setTitle("Erro");
+        builder.setMessage("Erro ao detalhar escola.");
+
+        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                finish();
+            }
+        });
+
+        alerta = builder.create();
+        alerta.show();
+    }
+
 }
