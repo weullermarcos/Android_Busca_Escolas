@@ -160,15 +160,17 @@ public class BuscaEscolasActivity extends AppCompatActivity {
         //adiciona a string de requisição a fila de execução
         queue.add(stringRequest);
 
+        //TODO: Adicionar componente de LOAD
+
     }
 
     private String criarFiltro(){
 
         String filtro = "?";
 
-        filtro += "nome=" + edtNome.getText().toString();
+        filtro += "nome=" + edtNome.getText().toString().replace(" ", "%20").trim();
         filtro += "&rede=" + spnRede.getSelectedItem().toString();
-        filtro += "&municipio=" + edtMunicipio.getText().toString();
+        filtro += "&municipio=" + edtMunicipio.getText().toString().replace(" ", "%20").trim();
         filtro += "&uf=" + spnUF.getSelectedItem().toString();
 
         Log.d("FILTRO", filtro);
