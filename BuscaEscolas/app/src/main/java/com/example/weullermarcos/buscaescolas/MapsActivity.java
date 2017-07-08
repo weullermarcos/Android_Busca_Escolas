@@ -1,8 +1,11 @@
 package com.example.weullermarcos.buscaescolas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.example.weullermarcos.buscaescolas.Models.Escola;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -13,6 +16,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    Escola escola;
+    AlertDialog alerta;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +28,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        Bundle bundle = getIntent().getExtras();
+
+        //verificando se existe o parametro com a chave informada
+        if(bundle.containsKey("ESCOLA")){
+
+            //recuperando escola
+            escola = (Escola) bundle.getSerializable("ESCOLA");
+
+        }
+        else{
+
+            exibeErroERetorna();
+        }
+
     }
 
 
@@ -38,9 +60,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        if(escola == null){
+            exibeErroERetorna();
+        }
+
+        if(escola.getLatitude() == null || escola.getLongitude() == null){
+            exibeErroLatLong();
+            return;
+        }
+
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng latLong = new LatLng(escola.getLatitude(), escola.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(latLong).title(escola.getNome()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLong));
+    }
+
+    private void exibeErroERetorna(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+        builder.setTitle("Erro");
+        builder.setMessage("Erro ao visualizar escola no mapa.");
+
+        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                finish();
+            }
+        });
+
+        alerta = builder.create();
+        alerta.show();
+    }
+
+    private void exibeErroLatLong(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+        builder.setTitle("Erro");
+        builder.setMessage("Não foi possível obter informações geográficas da escola selecionada.");
+
+        builder.setNeutralButton("OK", null);
+
+        alerta = builder.create();
+        alerta.show();
     }
 }

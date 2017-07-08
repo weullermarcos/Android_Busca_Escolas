@@ -46,8 +46,6 @@ public class DetalharEscolaActivity extends AppCompatActivity {
         txtQtdAlunos = (TextView) findViewById(R.id.detalhar_escola_txtQtdAlunos);
         txtQtdFuncionarios = (TextView) findViewById(R.id.detalhar_escola_txtQtdFuncionarios);
 
-        Bundle bundle = getIntent().getExtras();
-
         btnVerNoMapa = (Button) findViewById(R.id.detalhar_escola_btnVerNoMapa);
 
         btnVerNoMapa.setOnClickListener(new View.OnClickListener() {
@@ -56,21 +54,21 @@ public class DetalharEscolaActivity extends AppCompatActivity {
                 //TODO: direcionar e mostrar no mapa
 
                 Intent intent = new Intent(DetalharEscolaActivity.this, MapsActivity.class);
-
+                intent.putExtra("ESCOLA", escola);
                 startActivity(intent);
 
             }
         });
 
+        Bundle bundle = getIntent().getExtras();
+
         //verificando se existe o parametro com a chave informada
         if(bundle.containsKey("ESCOLA")){
 
             //recuperando escola
-            Escola escolaRecebida = (Escola) bundle.getSerializable("ESCOLA");
+            escola = (Escola) bundle.getSerializable("ESCOLA");
 
             if(escola != null){
-
-                escola = escolaRecebida;
 
                 txtCabecalho.setText(escola.getNome());
                 txtRede.setText(escola.getRede());
