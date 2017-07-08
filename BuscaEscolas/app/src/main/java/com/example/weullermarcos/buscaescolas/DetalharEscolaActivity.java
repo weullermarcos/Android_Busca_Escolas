@@ -21,7 +21,7 @@ public class DetalharEscolaActivity extends AppCompatActivity {
     TextView txtCNPJ, txtQtdAlunos, txtQtdFuncionarios;
     TextView txtZona;
 
-    Button btnVerNoMapa;
+    Button btnVerNoMapa, btnVerAvaliacao;
 
     AlertDialog alerta;
 
@@ -46,17 +46,26 @@ public class DetalharEscolaActivity extends AppCompatActivity {
         txtQtdAlunos = (TextView) findViewById(R.id.detalhar_escola_txtQtdAlunos);
         txtQtdFuncionarios = (TextView) findViewById(R.id.detalhar_escola_txtQtdFuncionarios);
 
+        btnVerAvaliacao = (Button) findViewById(R.id.detalhar_escola_btnVerAvaliacao);
         btnVerNoMapa = (Button) findViewById(R.id.detalhar_escola_btnVerNoMapa);
+
+        btnVerAvaliacao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(DetalharEscolaActivity.this, AvaliacaoActivity.class);
+                intent.putExtra("ESCOLA", escola);
+                startActivity(intent);
+            }
+        });
 
         btnVerNoMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: direcionar e mostrar no mapa
 
                 Intent intent = new Intent(DetalharEscolaActivity.this, MapsActivity.class);
                 intent.putExtra("ESCOLA", escola);
                 startActivity(intent);
-
             }
         });
 

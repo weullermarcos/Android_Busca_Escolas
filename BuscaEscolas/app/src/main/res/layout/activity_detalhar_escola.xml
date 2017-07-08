@@ -224,7 +224,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -241,14 +241,29 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/detalhar_escola_btnVerNoMapa"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:text="Ver no mapa"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/detalhar_escola_btnVerAvaliacao"
+                android:layout_weight="1"
+                android:text="Ver Avaliações"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/detalhar_escola_btnVerNoMapa"
+                android:layout_weight="1"
+                android:text="Ver no mapa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
 
 
     </LinearLayout>
