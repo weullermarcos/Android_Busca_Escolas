@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //TODO:
-                //direciona para a tela que lista escolas proximas a mim
+                //TODO: direciona para a tela que lista escolas proximas a mim
 
             }
         });
