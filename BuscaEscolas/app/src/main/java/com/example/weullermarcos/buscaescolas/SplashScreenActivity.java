@@ -21,11 +21,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 mostrarTelaInicial();
             }
-        }, 2000);
+        }, 3000);
     }
     private void mostrarTelaInicial() {
 
-        Log.d("MENSAGEM: ","PASSOU PELA MOSTRAR LOGIN");
+        Log.d("MENSAGEM: ","CHAMANDO TELA INICIAL");
         Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

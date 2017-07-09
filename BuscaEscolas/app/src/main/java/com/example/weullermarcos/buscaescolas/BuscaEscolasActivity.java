@@ -31,7 +31,6 @@ public class BuscaEscolasActivity extends AppCompatActivity {
 
     Button btnPesquisar;
     EditText edtNome, edtMunicipio;
-    TextView txtResposta;
     ListView lstEscolas;
     Spinner spnUF;
     Spinner spnRede;
@@ -49,7 +48,6 @@ public class BuscaEscolasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_busca_escolas);
 
         lstEscolas = (ListView) findViewById(R.id.busca_escolas_lstEscolas);
-        txtResposta = (TextView) findViewById(R.id.busca_escolas_txtResposta);
         edtNome = (EditText) findViewById(R.id.busca_escolas_edtNome);
         edtMunicipio = (EditText) findViewById(R.id.busca_escolas_edtMunicipio);
         spnUF = (Spinner) findViewById(R.id.busca_escolas_spnUF);
@@ -112,8 +110,6 @@ public class BuscaEscolasActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                txtResposta.setText("Deu Certo");
 
                 //desserializando
                 Gson gson = new Gson();

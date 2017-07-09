@@ -39,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //TODO: direciona para a tela que lista escolas proximas a mim
-
+                //chamando intent de forma implicita - Olhar configuração no AndroidManifest.xml
+                Intent intent = new Intent("ESCOLAS_POR_LOCALIZACAO");
+                intent.addCategory("ESCOLAS_POR_LOCALIZACAO");
+                startActivity(intent);
             }
         });
 
