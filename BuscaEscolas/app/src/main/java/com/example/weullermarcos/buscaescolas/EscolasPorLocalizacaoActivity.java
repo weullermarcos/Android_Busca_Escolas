@@ -3,6 +3,7 @@ package com.example.weullermarcos.buscaescolas;
 import android.*;
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +67,18 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 fazRequisicao(minhaLocalizacao, edtRaio.getText().toString());
+
+            }
+        });
+
+        lstEscolas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Escola escola = (Escola) (lstEscolas.getItemAtPosition(i));
+                Intent intent = new Intent(EscolasPorLocalizacaoActivity.this, DetalharEscolaActivity.class);
+                intent.putExtra("ESCOLA", escola);
+                startActivity(intent);
 
             }
         });
