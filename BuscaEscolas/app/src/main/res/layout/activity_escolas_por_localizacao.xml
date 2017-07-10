@@ -8,7 +8,35 @@
     android:layout_margin="10dp"
     tools:context="com.example.weullermarcos.buscaescolas.EscolasPorLocalizacaoActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Raio de busca (Km): "
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/escolas_por_localizacao_edtRaio"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/escolas_por_localizacao_btnBuscar"
+        android:text="Buscar"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
+        android:layout_marginTop="20dp"
         android:text="Escolas encontradas: "
         android:textStyle="bold"
         android:textSize="16dp"

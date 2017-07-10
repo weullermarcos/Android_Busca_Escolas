@@ -10,7 +10,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -37,17 +40,38 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
     AlertDialog alerta;
     ArrayList<Escola> escolas = new ArrayList<Escola>();
     ArrayAdapter<Escola> adpEscolas;
+    Location minhaLocalizacao;
+
+    EditText edtRaio;
+    Button btnBuscar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_escolas_por_localizacao);
 
+         capturaLocalizacaoAtual();
+
         lstEscolas = (ListView) findViewById(R.id.escolas_por_localizacao_lstEscolas);
 
         adpEscolas = new ArrayAdapter<Escola>(this, android.R.layout.simple_list_item_1);
         lstEscolas.setAdapter(adpEscolas);
 
+        edtRaio = (EditText) findViewById(R.id.escolas_por_localizacao_edtRaio);
+        btnBuscar = (Button) findViewById(R.id.escolas_por_localizacao_btnBuscar);
+
+        btnBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                fazRequisicao(minhaLocalizacao, edtRaio.getText().toString());
+
+            }
+        });
+
+    }
+
+    private void capturaLocalizacaoAtual(){
 
         try {
 
@@ -63,8 +87,7 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
                         Log.d("LATITUDE", String.valueOf(location.getLatitude()));
                         Log.d("LONGITUDE", String.valueOf(location.getLongitude()));
 
-
-                        fazRequisicao(location);
+                        minhaLocalizacao = location;
                     }
                 }
             });
@@ -80,15 +103,30 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
             alerta.show();
 
         }
+
     }
 
-    private void fazRequisicao(Location location){
+    private void fazRequisicao(Location location, String raio){
+
+        if(location == null) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(EscolasPorLocalizacaoActivity.this);
+            builder.setTitle("Erro");
+            builder.setMessage("Localização atual não encontrada.");
+            builder.setNeutralButton("OK", null);
+
+            alerta = builder.create();
+            alerta.show();
+
+            return;
+
+        }
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="http://mobile-aceite.tcu.gov.br:80/nossaEscolaRS" +
                     "/rest/escolas/latitude/" + String.valueOf(location.getLatitude()) +
                     "/longitude/" + String.valueOf(location.getLongitude()) +
-                    "/raio/50";
+                    "/raio/" + raio;
 
         Log.d("URL", url);
 
