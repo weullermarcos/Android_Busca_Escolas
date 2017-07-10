@@ -1,6 +1,9 @@
 package com.example.weullermarcos.buscaescolas;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,13 +27,18 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnEsolasProximas, btnBuscarEscolas;
+    private static final int REQUEST_FINE_LOCATION = 0;
 
+    Button btnEsolasProximas, btnBuscarEscolas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("MENSAGEM: ","VAI CHAMAR O LOAD");
+
+        loadPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_FINE_LOCATION);
 
         btnEsolasProximas = (Button) findViewById(R.id.main_btnEsolasProximas);
         btnBuscarEscolas = (Button) findViewById(R.id.main_btnBuscarEscolas);
@@ -56,4 +64,39 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        Log.d("MENSAGEM: ","ENTROU NO ONREQUEST");
+
+        switch (requestCode) {
+            case REQUEST_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // granted
+                    Log.d("MENSAGEM: ","ACEITOU");
+                }
+                else{
+                    // no granted
+                    Log.d("MENSAGEM: ","NÃO ACEITOU");
+                }
+                return;
+            }
+        }
+    }
+
+    private void loadPermissions(String perm, int requestCode) {
+
+        Log.d("MENSAGEM: ","ENTROU NO LOAD");
+
+        if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, perm)) {
+                ActivityCompat.requestPermissions(this, new String[]{perm},requestCode);
+            }
+        }
+    }
+
 }

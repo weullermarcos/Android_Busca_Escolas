@@ -1,7 +1,12 @@
 package com.example.weullermarcos.buscaescolas;
 
+import android.*;
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,9 +34,7 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
 
     ListView lstEscolas;
-
     AlertDialog alerta;
-
     ArrayList<Escola> escolas = new ArrayList<Escola>();
     ArrayAdapter<Escola> adpEscolas;
 
@@ -45,25 +48,39 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
         adpEscolas = new ArrayAdapter<Escola>(this, android.R.layout.simple_list_item_1);
         lstEscolas.setAdapter(adpEscolas);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-//        mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-//                    @Override
-//                    public void onSuccess(Location location) {
-//
-//                        // Got last known location. In some rare situations this can be null.
-//                        if (location != null) {
-//
-//                            Log.d("LATITUDE", String.valueOf(location.getLatitude()));
-//                            Log.d("LONGITUDE", String.valueOf(location.getLongitude()));
-//
-//
-//                            fazRequisicao(location);
-//                        }
-//                    }
-//                });
+        try {
+
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+
+                        Log.d("LATITUDE", String.valueOf(location.getLatitude()));
+                        Log.d("LONGITUDE", String.valueOf(location.getLongitude()));
+
+
+                        fazRequisicao(location);
+                    }
+                }
+            });
+
+        }catch (SecurityException e) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(EscolasPorLocalizacaoActivity.this);
+            builder.setTitle("Erro");
+            builder.setMessage("Erro verifique se o seu GPS está ligado ou se você tem as permissões necessárias para usar esse recurso.");
+            builder.setNeutralButton("OK", null);
+
+            alerta = builder.create();
+            alerta.show();
+
+        }
     }
-
 
     private void fazRequisicao(Location location){
 
@@ -71,7 +88,7 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
         String url ="http://mobile-aceite.tcu.gov.br:80/nossaEscolaRS" +
                     "/rest/escolas/latitude/" + String.valueOf(location.getLatitude()) +
                     "/longitude/" + String.valueOf(location.getLongitude()) +
-                    "/raio/{raio}";
+                    "/raio/50";
 
         Log.d("URL", url);
 
