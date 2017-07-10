@@ -3,6 +3,9 @@ package com.example.weullermarcos.buscaescolas;
 import android.*;
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -40,6 +43,7 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
 
     ListView lstEscolas;
     AlertDialog alerta;
+    Dialog mDialog;
     ArrayList<Escola> escolas = new ArrayList<Escola>();
     ArrayAdapter<Escola> adpEscolas;
     Location minhaLocalizacao;
@@ -65,6 +69,12 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //limpa dados anteriores
+                adpEscolas.clear();
+
+                closeDialog();
+                createProgressDialog("Aguarde uns instantes!", "Carregando...", EscolasPorLocalizacaoActivity.this);
 
                 fazRequisicao(minhaLocalizacao, edtRaio.getText().toString());
 
@@ -136,6 +146,10 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
 
         }
 
+
+        if(raio.isEmpty() || raio.trim() == "" || raio == null)
+            raio = "5";
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="http://mobile-aceite.tcu.gov.br:80/nossaEscolaRS" +
                     "/rest/escolas/latitude/" + String.valueOf(location.getLatitude()) +
@@ -147,6 +161,9 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                //fechando caixa de dialogo
+                closeDialog();
 
                 //desserializando
                 Gson gson = new Gson();
@@ -178,6 +195,9 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                //fechando caixas de dialogo
+                closeDialog();
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(EscolasPorLocalizacaoActivity.this);
                 builder.setTitle("Erro");
                 builder.setMessage("Erro ao buscar escolas, verifique sua conexão com a internet.");
@@ -193,7 +213,16 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
         //adiciona a string de requisição a fila de execução
         queue.add(stringRequest);
 
-        //TODO: Adicionar componente de LOAD
+    }
 
+    public void createProgressDialog(String message, String title, Context context) {
+        closeDialog();
+
+        mDialog = ProgressDialog.show(context, title, message, false, false);
+    }
+
+    public void closeDialog() {
+        if(mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
     }
 }

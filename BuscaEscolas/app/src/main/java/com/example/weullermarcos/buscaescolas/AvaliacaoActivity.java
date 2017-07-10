@@ -1,6 +1,9 @@
 package com.example.weullermarcos.buscaescolas;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +36,8 @@ public class AvaliacaoActivity extends AppCompatActivity {
     TextView txtCabecalho;
     ListView lstAvaliacoes;
 
+    Dialog mDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,11 @@ public class AvaliacaoActivity extends AppCompatActivity {
 
             if (escola != null) {
                 txtCabecalho.setText(escola.getNome());
+
+                closeDialog();
+                createProgressDialog("Aguarde uns instantes!", "Carregando...", AvaliacaoActivity.this);
+
+
                 fazRequisicao(String.valueOf(escola.getCodEscola()));
             }
         }
@@ -72,7 +82,7 @@ public class AvaliacaoActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                //txtResposta.setText("Deu Certo");
+                closeDialog();
 
                 //desserializando
                 Gson gson = new Gson();
@@ -109,6 +119,8 @@ public class AvaliacaoActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                closeDialog();
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(AvaliacaoActivity.this);
                 builder.setTitle("Erro");
                 builder.setMessage("Erro ao buscar avaliações, verifique sua conexão com a internet.");
@@ -123,7 +135,16 @@ public class AvaliacaoActivity extends AppCompatActivity {
         //adiciona a string de requisição a fila de execução
         queue.add(stringRequest);
 
-        //TODO: Adicionar componente de LOAD
+    }
 
+    public void createProgressDialog(String message, String title, Context context) {
+        closeDialog();
+
+        mDialog = ProgressDialog.show(context, title, message, false, false);
+    }
+
+    public void closeDialog() {
+        if(mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
     }
 }

@@ -1,6 +1,9 @@
 package com.example.weullermarcos.buscaescolas;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,6 +43,7 @@ public class BuscaEscolasActivity extends AppCompatActivity {
     ArrayAdapter<String> adpUF;
     ArrayAdapter<String> adpRede;
     AlertDialog alerta;
+    Dialog mDialog;
 
 
     @Override
@@ -77,6 +81,9 @@ public class BuscaEscolasActivity extends AppCompatActivity {
                 //limpa dados anteriores
                 adpEscolas.clear();
 
+                closeDialog();
+                createProgressDialog("Aguarde uns instantes!", "Carregando...", BuscaEscolasActivity.this);
+
                 String filtro = criarFiltro();
                 fazRequisicao(filtro);
 
@@ -111,6 +118,9 @@ public class BuscaEscolasActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
+                //fechando caixas de dialogo
+                closeDialog();
+
                 //desserializando
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Escola>>(){}.getType();
@@ -141,6 +151,9 @@ public class BuscaEscolasActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                //fechando caixas de dialogo
+                closeDialog();
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(BuscaEscolasActivity.this);
                 builder.setTitle("Erro");
                 builder.setMessage("Erro ao buscar escolas, verifique sua conexão com a internet.");
@@ -156,8 +169,6 @@ public class BuscaEscolasActivity extends AppCompatActivity {
         //adiciona a string de requisição a fila de execução
         queue.add(stringRequest);
 
-        //TODO: Adicionar componente de LOAD
-
     }
 
     private String criarFiltro(){
@@ -172,6 +183,17 @@ public class BuscaEscolasActivity extends AppCompatActivity {
         Log.d("FILTRO", filtro);
 
         return filtro;
+    }
+
+    public void createProgressDialog(String message, String title, Context context) {
+        closeDialog();
+
+        mDialog = ProgressDialog.show(context, title, message, false, false);
+    }
+
+    public void closeDialog() {
+        if(mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
     }
 
     private void populaAdapters(){
