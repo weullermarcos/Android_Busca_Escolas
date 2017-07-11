@@ -1,6 +1,11 @@
 package com.example.weullermarcos.buscaescolas;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -87,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     // granted
                     Log.d("MENSAGEM: ","ACEITOU");
                     btnEsolasProximas.setEnabled(true);
+                    exibeNotificacao("Acesso a localização concedido!");
                 }
                 else{
                     // no granted
@@ -96,7 +102,12 @@ public class MainActivity extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("Aviso");
                     builder.setMessage("Algumas funcionalidades podem não funcionar corretamente, caso a permissão de localização não seja concedida!");
-                    builder.setNeutralButton("OK", null);
+                    builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            exibeNotificacao("Sem acesso a localização!");
+                        }
+                    });
 
                     alerta = builder.create();
                     alerta.show();
@@ -105,6 +116,26 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
+    }
+
+    private void exibeNotificacao(String mensagem){
+
+        NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent it = new Intent(this, MainActivity.class);
+
+        PendingIntent pIntent = PendingIntent.getActivity(this,0,it,PendingIntent.FLAG_ONE_SHOT);
+
+        Notification n = new Notification.Builder(this)
+                .setContentTitle("Busca Escola")
+                .setContentText(mensagem)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true)
+                .build();
+
+        nm.notify(0,n);
+
     }
 
     private void loadPermissions(String perm, int requestCode) {
