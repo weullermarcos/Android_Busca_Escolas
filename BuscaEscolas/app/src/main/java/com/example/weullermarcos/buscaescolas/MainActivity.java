@@ -1,5 +1,6 @@
 package com.example.weullermarcos.buscaescolas;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -30,13 +31,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_FINE_LOCATION = 0;
 
     Button btnEsolasProximas, btnBuscarEscolas;
+    AlertDialog alerta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.d("MENSAGEM: ","VAI CHAMAR O LOAD");
 
         loadPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_FINE_LOCATION);
 
@@ -63,14 +63,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            Log.d("MENSAGEM: ","NÀO TEM PERMISSÃO DESABILITA O BOTÃO");
+            btnEsolasProximas.setEnabled(false);
+        }
+        else{
+
+            Log.d("MENSAGEM: ","TEM PERMISSÃO habilita O BOTÃO");
+            btnEsolasProximas.setEnabled(true);
+        }
+    }
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        Log.d("MENSAGEM: ","ENTROU NO ONREQUEST");
 
         switch (requestCode) {
             case REQUEST_FINE_LOCATION: {
@@ -78,10 +86,21 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // granted
                     Log.d("MENSAGEM: ","ACEITOU");
+                    btnEsolasProximas.setEnabled(true);
                 }
                 else{
                     // no granted
                     Log.d("MENSAGEM: ","NÃO ACEITOU");
+                    btnEsolasProximas.setEnabled(false);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Aviso");
+                    builder.setMessage("Algumas funcionalidades podem não funcionar corretamente, caso a permissão de localização não seja concedida!");
+                    builder.setNeutralButton("OK", null);
+
+                    alerta = builder.create();
+                    alerta.show();
+
                 }
                 return;
             }
@@ -98,5 +117,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 }

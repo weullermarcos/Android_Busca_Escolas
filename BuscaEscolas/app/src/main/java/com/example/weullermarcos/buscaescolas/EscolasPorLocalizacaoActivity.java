@@ -56,7 +56,7 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_escolas_por_localizacao);
 
-         capturaLocalizacaoAtual();
+        Log.d("MENSAGEM", "ONCREATE");
 
         lstEscolas = (ListView) findViewById(R.id.escolas_por_localizacao_lstEscolas);
 
@@ -92,7 +92,35 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d("MENSAGEM", "ONRESUME");
+
+        capturaLocalizacaoAtual();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d("MENSAGEM", "ONPAUSE");
+
+        //limpa o raio
+        edtRaio.setText("");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d("MENSAGEM", "ONDESTROY");
+
+        //limpa dados anteriores
+        adpEscolas.clear();
     }
 
     private void capturaLocalizacaoAtual(){
@@ -143,7 +171,6 @@ public class EscolasPorLocalizacaoActivity extends AppCompatActivity {
             alerta.show();
 
             return;
-
         }
 
 

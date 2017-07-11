@@ -67,7 +67,6 @@ public class AvaliacaoActivity extends AppCompatActivity {
                 fazRequisicao(String.valueOf(escola.getCodEscola()));
             }
         }
-
     }
 
     private void fazRequisicao(String filtro){
