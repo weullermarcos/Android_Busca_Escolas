@@ -19,21 +19,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".BuscaEscolasActivity" />
-        <activity android:name=".DetalharEscolaActivity" />
-        <activity android:name=".AvaliacaoActivity" />
+        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
+        <activity android:name=".BuscaEscolasActivity" android:screenOrientation="portrait" />
+        <activity android:name=".DetalharEscolaActivity" android:screenOrientation="portrait" />
+        <activity android:name=".AvaliacaoActivity" android:screenOrientation="portrait" />
 
-        <activity android:name=".EscolasPorLocalizacaoActivity">
+        <activity android:name=".EscolasPorLocalizacaoActivity" android:screenOrientation="portrait" >
             <!-- Configuração para poder chamar a intent de forma implicita -->
             <intent-filter>
                 <action android:name="ESCOLAS_POR_LOCALIZACAO" />
@@ -56,6 +58,7 @@
 
         <activity
             android:name=".MapsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_maps" />
     </application>
 
